@@ -1,6 +1,12 @@
 var fs = require('fs')
 var iconvLite = require('iconv-lite')
 
+let csv = process.argv[3]
+let json = csv.split('.')
+json = json.slice(0, json.length - 1).join('.') + '.json'
+
+parseCSV(csv, json)
+
 function parseCSV (csv, json) {
   fs.readFile(csv, (err, res) => {
     if (err) throw new Error(err)
@@ -27,5 +33,3 @@ function parseCSV (csv, json) {
     fs.writeFile(json, JSON.stringify(arr))
   })
 }
-
-parseCSV('shintech.csv', 'shintech.json')
