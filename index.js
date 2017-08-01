@@ -15,7 +15,6 @@ function parseCSV (csv, json) {
     let headers
 
     var arr = []
-    var obj = {}
 
     feed = iconvLite.decode(res, 'utf8')
 
@@ -31,6 +30,8 @@ function parseCSV (csv, json) {
       .filter(line => line.length !== 1 && line[0] !== '')
 
     for (var j = 0; j < feed.length; j++) {
+      var obj = {}
+
       for (var k = 0; k < feed[j].length; k++) {
         for (var i = 0; i < headers[0].length; i++) {
           obj[headers[0][k]] = feed[j][k]
