@@ -38,6 +38,6 @@ function parseCSV (csv, json) {
         }
       }
     }
-    fs.writeFile(json, JSON.stringify(arr))
+    fs.writeFile(json, JSON.stringify(arr, null, 2))
   })
 }
