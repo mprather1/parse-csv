@@ -12,24 +12,32 @@ function parseCSV (csv, json) {
     if (err) throw new Error(err)
 
     let feed
+    let headers
+
+    var arr = []
+    var obj = {}
+
     feed = iconvLite.decode(res, 'utf8')
 
-    // var headers = feed.split('\n')[0]
+    headers = feed.split('\n').slice(0, 1)
+    headers = headers
+      .map(line => line.split('\t'))
+      .filter(line => line.length !== 1 && line[0] !== '')
+
     feed = feed.split('\n').slice(1).join('\n')
     feed = feed
       .split('\n')
       .map(line => line.split('\t'))
       .filter(line => line.length !== 1 && line[0] !== '')
 
-    var arr = []
-    feed.map(line => {
-      for (let [id, name] of feed) {
-        let obj = {}
-        obj[name] = id
-        arr.push(obj)
+    for (var j = 0; j < feed.length; j++) {
+      for (var k = 0; k < feed[j].length; k++) {
+        for (var i = 0; i < headers[0].length; i++) {
+          obj[headers[0][k]] = feed[j][k]
+          arr.push(obj)
+        }
       }
-    })
-
+    }
     fs.writeFile(json, JSON.stringify(arr))
   })
 }
